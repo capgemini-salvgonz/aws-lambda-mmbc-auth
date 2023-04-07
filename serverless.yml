@@ -1,10 +1,13 @@
 service: aws-lambda-mmbc-auth
 frameworkVersion: '3'
+configValidationMode: error
 plugins:
   - serverless-offline
 
+
 provider:
   name: aws
+  region: us-west-1
   runtime: nodejs18.x
 
 functions:
