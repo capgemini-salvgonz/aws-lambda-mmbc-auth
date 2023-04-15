@@ -1,14 +1,4 @@
-const nodemailer = require('nodemailer');
-
-const transport = nodemailer.createTransport({
-  host: 'mail.2code.com.mx',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  }
-});
+const axios = require('axios');
 
 /**
  * 
@@ -16,20 +6,19 @@ const transport = nodemailer.createTransport({
  * @param {string} code 
  */
 module.exports.sendMail = async (email, code) => {
-  
+
+  const url = process.env.EMAIL_SERVICE_URL;
+  const apiKey = process.env.EMAIL_API_KEY;
   const mailOptions = {
-    from: process.env.EMAIL_USER,
     to: email,
     subject: 'MFA Code',
     html: `<p>Tu código de autorización es: <strong>${code}</strong></p>`
   };
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-api-key': apiKey,
+  }
 
-  transport.sendMail(mailOptions, function (err, info) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(info);
-    }
-  });
+  axios.post(url, mailOptions, { headers });
 }
 

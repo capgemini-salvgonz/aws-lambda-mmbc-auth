@@ -35,7 +35,10 @@ module.exports.handleMfa = async (jwt) => {
     jwt,
     mfaCode
   };
-  
-  save(document);
-  sendMail(document.email, document.mfaCode);
+
+  try {
+    await Promise.all([save(document), sendMail(document.email, mfaCode)]).catch(error => error);
+  } catch (error) {
+    console.log(error);
+  }
 }
