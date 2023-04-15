@@ -28,7 +28,9 @@ module.exports.handler = async (event) => {
 
   const response = await auth(code)
     .then((response) => {
-      handleMfa(response.data);
+      return handleMfa(response.data).then(r => response)
+    })
+    .then(response => {
       return {
         statusCode: response.status,
         headers,
