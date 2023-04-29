@@ -10,10 +10,10 @@ const { getEmail, handleMfa } = require('./services/jwt-handler');
  */
 module.exports.handler = async (event) => {
 
+  console.log(event);
   const { code } = queryString.parse(event['body']);
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': true,
   };
 
   if (!code) {
